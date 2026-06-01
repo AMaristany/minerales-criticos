@@ -1,0 +1,183 @@
+index,mineral,country,year,mine_production,reserves
+0,cobalt,United States,2005,,
+1,cobalt,Australia,2005,6600.0,1300000.0
+2,cobalt,Brazil,2005,1400.0,35000.0
+3,cobalt,Canada,2005,5700.0,130000.0
+4,cobalt,Congo (Kinshasa),2005,16000.0,3400000.0
+5,cobalt,Cuba,2005,3600.0,1000000.0
+6,cobalt,Morocco,2005,1600.0,20000.0
+7,cobalt,New Caledonia,2005,1400.0,230000.0
+8,cobalt,Russia,2005,5000.0,250000.0
+9,cobalt,Zambia,2005,9000.0,270000.0
+10,cobalt,Other countries,2005,2100.0,200000.0
+11,cobalt,World total,2005,52400.0,7000000.0
+12,cobalt,United States,2015,700.0,23000.0
+13,cobalt,Australia,2015,6000.0,1100000.0
+14,cobalt,Brazil,2015,2600.0,78000.0
+15,cobalt,Canada,2015,6300.0,240000.0
+16,cobalt,China,2015,7200.0,80000.0
+17,cobalt,Congo (Kinshasa),2015,63000.0,3400000.0
+18,cobalt,Cuba,2015,4200.0,500000.0
+19,cobalt,Madagascar,2015,3600.0,130000.0
+20,cobalt,New Caledonia,2015,3300.0,200000.0
+21,cobalt,Philippines,2015,4600.0,250000.0
+22,cobalt,Russia,2015,6300.0,250000.0
+23,cobalt,South Africa,2015,2800.0,31000.0
+24,cobalt,Zambia,2015,5500.0,270000.0
+25,cobalt,Other countries,2015,7700.0,610000.0
+26,cobalt,World total,2015,124000.0,7100000.0
+27,cobalt,United States,2025,300.0,70000.0
+28,cobalt,Australia,2025,3700.0,1700000.0
+29,cobalt,Canada,2025,3500.0,220000.0
+30,cobalt,China,2025,2000.0,160000.0
+31,cobalt,Congo (Kinshasa),2025,230000.0,6000000.0
+32,cobalt,Cuba,2025,2000.0,500000.0
+33,cobalt,Indonesia,2025,44000.0,760000.0
+34,cobalt,Madagascar,2025,3900.0,100000.0
+35,cobalt,Papua New Guinea,2025,2800.0,84000.0
+36,cobalt,Philippines,2025,3700.0,260000.0
+37,cobalt,Russia,2025,7700.0,11800000.0
+38,cobalt,Turkey,2025,1900.0,91000.0
+39,cobalt,Other countries,2025,9100.0,780000.0
+40,cobalt,World total,2025,310000.0,12000000.0
+41,copper,United States,2005,1150.0,35000.0
+42,copper,Australia,2005,930.0,24000.0
+43,copper,Canada,2005,580.0,7000.0
+44,copper,Chile,2005,5320.0,140000.0
+45,copper,China,2005,640.0,26000.0
+46,copper,Indonesia,2005,1050.0,35000.0
+47,copper,Kazakhstan,2005,400.0,14000.0
+48,copper,Mexico,2005,420.0,27000.0
+49,copper,Peru,2005,1000.0,30000.0
+50,copper,Poland,2005,530.0,30000.0
+51,copper,Russia,2005,675.0,20000.0
+52,copper,Zambia,2005,450.0,19000.0
+53,copper,Other countries,2005,1750.0,60000.0
+54,copper,World total,2005,14900.0,470000.0
+55,copper,United States,2015,1250.0,33000.0
+56,copper,Australia,2015,960.0,88000.0
+57,copper,Canada,2015,695.0,11000.0
+58,copper,Chile,2015,5700.0,210000.0
+59,copper,China,2015,1750.0,30000.0
+60,copper,Congo (Kinshasa),2015,990.0,20000.0
+61,copper,Mexico,2015,550.0,46000.0
+62,copper,Peru,2015,1600.0,82000.0
+63,copper,Russia,2015,740.0,30000.0
+64,copper,Zambia,2015,600.0,20000.0
+65,copper,Other countries,2015,3900.0,150000.0
+66,copper,World total,2015,18700.0,720000.0
+67,copper,United States,2025,1000.0,47000.0
+68,copper,Australia,2025,730.0,100000.0
+69,copper,Canada,2025,500.0,7000.0
+70,copper,Chile,2025,5300.0,180000.0
+71,copper,China,2025,1800.0,41000.0
+72,copper,Congo (Kinshasa),2025,3200.0,80000.0
+73,copper,India,2025,23.0,2200.0
+74,copper,Indonesia,2025,710.0,21000.0
+75,copper,Kazakhstan,2025,710.0,20000.0
+76,copper,Mexico,2025,690.0,53000.0
+77,copper,Peru,2025,2700.0,85000.0
+78,copper,Poland,2025,410.0,33000.0
+79,copper,Russia,2025,1300.0,80000.0
+80,copper,Zambia,2025,940.0,21000.0
+81,copper,Other countries,2025,3000.0,210000.0
+82,copper,World total,2025,23000.0,980000.0
+83,lithium,United States,2005,,38000.0
+84,lithium,Argentina,2005,2000.0,
+85,lithium,Australia,2005,4000.0,160000.0
+86,lithium,Bolivia,2005,,
+87,lithium,Brazil,2005,240.0,190000.0
+88,lithium,Canada,2005,700.0,180000.0
+89,lithium,Chile,2005,8000.0,3000000.0
+90,lithium,China,2005,2700.0,540000.0
+91,lithium,Portugal,2005,320.0,
+92,lithium,Russia,2005,2200.0,
+93,lithium,Zimbabwe,2005,240.0,23000.0
+94,lithium,World total,2005,20400.0,4100000.0
+95,lithium,United States,2015,,38000.0
+96,lithium,Argentina,2015,3800.0,2000000.0
+97,lithium,Australia,2015,13400.0,1500000.0
+98,lithium,Brazil,2015,160.0,48000.0
+99,lithium,Chile,2015,11700.0,7500000.0
+100,lithium,China,2015,2200.0,3200000.0
+101,lithium,Portugal,2015,300.0,60000.0
+102,lithium,Zimbabwe,2015,900.0,23000.0
+103,lithium,World total,2015,32500.0,14000000.0
+104,lithium,United States,2025,,4400000.0
+105,lithium,Argentina,2025,23000.0,4400000.0
+106,lithium,Australia,2025,92000.0,8400000.0
+107,lithium,Brazil,2025,12000.0,540000.0
+108,lithium,Canada,2025,5600.0,1600000.0
+109,lithium,Chile,2025,56000.0,9200000.0
+110,lithium,China,2025,62000.0,4600000.0
+111,lithium,Mali,2025,9400.0,370000.0
+112,lithium,Portugal,2025,380.0,60000.0
+113,lithium,Zimbabwe,2025,28000.0,500000.0
+114,lithium,Other countries,2025,,2400000.0
+115,lithium,World total,2025,290000.0,37000000.0
+116,nickel,United States,2005,,
+117,nickel,Australia,2005,210000.0,22000000.0
+118,nickel,Botswana,2005,37100.0,490000.0
+119,nickel,Brazil,2005,46000.0,4500000.0
+120,nickel,Canada,2005,196000.0,4900000.0
+121,nickel,China,2005,71000.0,1100000.0
+122,nickel,Colombia,2005,72500.0,830000.0
+123,nickel,Cuba,2005,75000.0,5600000.0
+124,nickel,Dominican Republic,2005,47000.0,720000.0
+125,nickel,Greece,2005,22100.0,490000.0
+126,nickel,Indonesia,2005,140000.0,3200000.0
+127,nickel,New Caledonia,2005,122000.0,4400000.0
+128,nickel,Philippines,2005,22000.0,940000.0
+129,nickel,Russia,2005,315000.0,6600000.0
+130,nickel,South Africa,2005,41700.0,3700000.0
+131,nickel,Venezuela,2005,22000.0,560000.0
+132,nickel,Zimbabwe,2005,9800.0,15000.0
+133,nickel,Other countries,2005,26000.0,2100000.0
+134,nickel,World total,2005,1500000.0,62000000.0
+135,nickel,United States,2015,26500.0,160000.0
+136,nickel,Australia,2015,234000.0,19000000.0
+137,nickel,Brazil,2015,110000.0,10000000.0
+138,nickel,Canada,2015,240000.0,2900000.0
+139,nickel,China,2015,102000.0,3000000.0
+140,nickel,Colombia,2015,73000.0,1100000.0
+141,nickel,Cuba,2015,57000.0,5500000.0
+142,nickel,Guatemala,2015,50000.0,1800000.0
+143,nickel,Indonesia,2015,170000.0,4500000.0
+144,nickel,Madagascar,2015,49000.0,1600000.0
+145,nickel,New Caledonia,2015,190000.0,8400000.0
+146,nickel,Philippines,2015,530000.0,3100000.0
+147,nickel,Russia,2015,240000.0,7900000.0
+148,nickel,South Africa,2015,53000.0,3700000.0
+149,nickel,Other countries,2015,410000.0,6500000.0
+150,nickel,World total,2015,2530000.0,79000000.0
+151,nickel,United States,2025,10000.0,340000.0
+152,nickel,Australia,2025,45000.0,25000000.0
+153,nickel,Brazil,2025,70000.0,16000000.0
+154,nickel,Canada,2025,140000.0,2200000.0
+155,nickel,China,2025,120000.0,4400000.0
+156,nickel,Indonesia,2025,2600000.0,62000000.0
+157,nickel,New Caledonia,2025,140000.0,7100000.0
+158,nickel,Philippines,2025,270000.0,4800000.0
+159,nickel,Russia,2025,200000.0,8300000.0
+160,nickel,Other countries,2025,290000.0,9100000.0
+161,nickel,World total,2025,3900000.0,140000000.0
+162,platinum,United States,2005,4200.0,900000.0
+163,platinum,Canada,2005,9000.0,310000.0
+164,platinum,Russia,2005,27000.0,6200000.0
+165,platinum,South Africa,2005,170000.0,63000000.0
+166,platinum,Other countries,2005,7600.0,800000.0
+167,platinum,World total,2005,218000.0,71000000.0
+168,platinum,United States,2015,3700.0,900000.0
+169,platinum,Canada,2015,9000.0,310000.0
+170,platinum,Russia,2015,23000.0,1100000.0
+171,platinum,South Africa,2015,125000.0,63000000.0
+172,platinum,Zimbabwe,2015,12500.0,
+173,platinum,Other countries,2015,4800.0,800000.0
+174,platinum,World total,2015,178000.0,66000000.0
+175,platinum,United States,2025,1800.0,590000.0
+176,platinum,Canada,2025,5000.0,310000.0
+177,platinum,Russia,2025,20000.0,11000000.0
+178,platinum,South Africa,2025,120000.0,63000000.0
+179,platinum,Zimbabwe,2025,18000.0,1300000.0
+180,platinum,Other countries,2025,3900.0,
+181,platinum,World total,2025,170000.0,76000000.0
