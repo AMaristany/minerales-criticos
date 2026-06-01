@@ -1,44 +1,55 @@
-# ⛏️ Minerales Críticos y Transición Energética
+# ⛰️ ⛏️ Minerales Críticos y Transición Energética 🪙✨
 
-Aplicación de visualización de datos para el análisis de los cinco minerales críticos que vertebran la transición energética global: **cobre, níquel, cobalto, litio y platino**.
+Aplicación de visualización de datos para el análisis de los cinco minerales críticos de la transición energética global: **cobre, níquel, cobalto, litio y platino**.
 
-Desarrollada como Caso Práctico del Máster en Data Science e Ingeniería de Datos · UNED.
+Desarrollada como Caso Práctico del Máster en Ciencia e Ingeniería de Datos - Facultad de Ingeniería Informática UNED.
 
-🔗 **[Ver aplicación en vivo](https://minerales-criticos-2026.streamlit.app)**
+🔗 **[Ver aplicación Streamlit en vivo](https://minerales-criticos-2026.streamlit.app)**
 
----
-
-## Hipótesis
-
-> *A mayor concentración geopolítica de la producción minera, mayor volatilidad histórica del precio del mineral.*
-
-Los datos la validan con una correlación de **r = 0,81** para los cuatro metales industriales de la transición energética (excluido el platino, que opera bajo lógicas de metal precioso y activo de reserva).
+(en esta aplicación solo se muestran un parte de las visualizaciones de datos del trabajo).
 
 ---
 
-## Estructura del análisis
+## Objetivo e hipótesis principal
+
+Queremos entender los factores y variables macroeconómicas que influyen en el precio y volatilidad de:
+**cobre, níquel, cobalto, litio y platino**
+
+> La hipótesis principal es que hay algo así como una "gramática" o una ecuación que pueda explicar por qué el precio de un material a nivel global fluctúa como las series históricas describen que fluctúa.
+
+En este trabajo, exploramos si esto es posible. 
+
+---
+
+## Estructura del análisis (también en la aplicación)
 
 El análisis aborda tres dimensiones cruzadas:
 
-**📈 Precios y volatilidad**
-Evolución histórica desde 2000 en índice base 100, shocks compartidos (crisis 2008, COVID-19, guerra en Ucrania) y volatilidad rolling anualizada por mineral. Se valida la fuente IMF frente al Banco Mundial (Pink Sheet) y se normalizan unidades heterogéneas.
+**1. Introducción + comportamiento de precios 📈**
+   → Base 100, choques "compartidos", platino como outlier
 
-**🌍 Geopolítica**
-Correlación entre eventos de violencia política (ACLED) y precios con análisis de delay óptimo (0–12 meses). Concentración de la producción mediante el índice Herfindahl-Hirschman (HHI) para 2005, 2015 y 2025.
+**2. El lado de la demanda: ciclo macroeconómico 📊**
+   → Datos de CFNAI, los 3 régimenes clave, el "despertar" del litio
 
-**📊 Macroeconomía**
-Correlación dinámica (ventana móvil 36 meses) con el CFNAI (Chicago Fed National Activity Index, compuesto por 85 indicadores). Análisis por subperiodos históricos y regresión OLS multivariable con DXY y tipos de interés como controles.
+**3. El lado de la oferta: concentración geopolítica e impacto de conflictos 🌍**
+   → Índice HHI, violencia política, delay clave de 8-12 meses
+
+**4. Síntesis: matriuz de riesgo estratégico 🪙**
+   → Relación entre HHI × volatilitat, validación de hipòtesi con r=0.81
+
+
+
 
 ---
 
-## Stack técnico
+## Stack del trabajo
 
 | Capa | Tecnología |
 |---|---|
-| Análisis | Python · Pandas · NumPy · SciPy · Statsmodels |
-| Visualización | Altair |
+| Análisis | Python · Pandas · NumPy · Statsmodels |
+| Visualización | Altair · Seaborn · Matplotlib|
 | Aplicación | Streamlit |
-| Fuentes de datos | IMF Primary Commodity Prices · World Bank Pink Sheet · ACLED · USGS · Chicago Fed (CFNAI) · FRED (DXY, FEDFUNDS) |
+| Fuentes de datos | IMF Primary Commodity Prices · World Bank Pink Sheet · Chicago Fed (CFNAI) · PMI · ACLED · USGS · FRED (DXY, FEDFUNDS) |
 
 ---
 
@@ -73,7 +84,7 @@ streamlit run app.py
 ## Hallazgos principales
 
 - **Tres regímenes históricos** en la relación macro–mineral: desconexión en los 90 (r = 0,13, p = 0,24), sincronización durante el superciclo chino 2002–2019 (r = 0,49, p < 0,001), y nuevo equilibrio post-covid (r = 0,33, p = 0,004).
-- **El litio se sincroniza por primera vez** con el ciclo industrial a partir de 2020: el mercado ha dejado de moverse por el cemento y el acero para hacerlo por la electroquímica.
+- **El litio se sincroniza por primera vez** con el ciclo industrial a partir de 2020: el mercado ha dejado de moverse por el cemento y el acero para hacerlo por la electroquímica (baterías y EVs).
 - **El delay geopolítico es de 8–12 meses**: las disrupciones en zonas de conflicto tardan casi un año en propagarse a los precios de mercado.
 - **El dólar (DXY) es el principal driver financiero** del precio del cobre en frecuencia mensual (β = −1,32, p < 0,001).
 - **Cobalto y níquel** ocupan el cuadrante de mayor riesgo estratégico: alta concentración geopolítica y alta volatilidad histórica simultáneamente.
