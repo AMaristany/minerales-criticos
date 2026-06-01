@@ -1,4 +1,5 @@
-# ⛰️ ⛏️ Minerales Críticos y Transición Energética 🪙✨
+## ⛰️ ⛏️ Minerales Críticos y Transición Energética 🪙✨
+### Análisis de volatilidad y determinantes de precio de minerales criticos en el contexto de la transición energética (2000-2025)
 
 Aplicación de visualización de datos para el análisis de los cinco minerales críticos de la transición energética global: **cobre, níquel, cobalto, litio y platino**.
 
