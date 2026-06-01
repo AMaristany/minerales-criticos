@@ -4,7 +4,7 @@ Aplicación de visualización de datos para el análisis de los cinco minerales 
 
 Desarrollada como Caso Práctico del Máster en Data Science e Ingeniería de Datos · UNED.
 
-🔗 **[Ver aplicación en vivo](https://minerales-criticos.streamlit.app)**
+🔗 **[Ver aplicación en vivo](https://minerales-criticos-2026.streamlit.app)**
 
 ---
 
