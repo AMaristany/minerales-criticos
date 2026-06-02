@@ -82,71 +82,59 @@ METALES_LABEL = {'copper': 'Cobre', 'nickel': 'Níquel', 'platinum': 'Platino',
 PAISES        = ['Democratic Republic of Congo', 'South Africa', 'Chile', 'Peru', 'Indonesia']
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
+
+
 with st.sidebar:
-    st.title("⛏️ Minerales Críticos")
+    st.title("⛰️ ⛏️ Minerales Críticos y Transición Energética 🪙✨")
     st.caption("Análisis de precios, geopolítica y concentración minera global")
     st.divider()
-
-    st.markdown("**Introducción**")
-    st.markdown("**→ Comportamiento de precios**")
-    st.divider()
-
-    st.markdown("**Lado de la demanda**")
-    st.markdown("**→ Macroeconomía y ciclo económico**")
-    st.divider()
-
-    st.markdown("**Lado de la oferta**")
-    st.markdown("**→ Geopolítica y concentración**")
-    st.divider()
-
-    st.markdown("**Síntesis**")
-    st.markdown("**→ Matriz de riesgo estratégico**")
-    st.divider()
-
     seccion = st.radio(
-        "Navegación",
-        [
-            "Introducción",
-            "Comportamiento de Precios",
-            "Macroeconomía y Ciclo Económico",
-            "Geopolítica y Concentración",
-            "Matriz de Riesgo Estratégico",
-        ],
+        "Sección",
+        ["Introducción", "Comportamiento de Precios", "Macroeconomía y Ciclo Económico", "Geopolítica y Concentración", "Riesgo Estratégico"],
         label_visibility="collapsed"
     )
     st.divider()
-    st.caption("UNED · Máster Data Science · Visualización de Datos")
+    st.caption("UNED · Máster Ciencia e Ingeniería de Datos · Visualización de Datos 2026")
+
 
 # ═══════════════════════════════════════════════════════════════
 # 0. INTRODUCCIÓN
 # ═══════════════════════════════════════════════════════════════
+
 if seccion == "Introducción":
-    st.title("Minerales Críticos y Transición Energética")
+    st.title("⛰️ ⛏️ Minerales Críticos y Transición Energética 🪙✨")
+    
     st.markdown("""
-    La transición energética global depende de un puñado de minerales cuya producción está
-    altamente concentrada en pocos países. Este trabajo analiza la **gramática de precios**
-    de cinco minerales críticos — cobre, níquel, cobalto, litio y platino — desde dos ángulos
-    complementarios:
-
-    - 📊 **Lado de la demanda** — ¿En qué medida el ciclo económico global explica la evolución de los precios?
-    - 🌍 **Lado de la oferta** — ¿La concentración geopolítica de la producción se traduce en mayor volatilidad?
-
-    La hipótesis de partida es que **a mayor concentración geopolítica de la producción minera,
-    mayor volatilidad histórica del precio**. Los datos la validan con una correlación de
-    **r = 0,81** para los cuatro metales industriales de la transición energética.
+    La transición energética global depende de un número reducido de materiales cuya producción está 
+    altamente concentrada en pocos países. Aunque la investigación en ciencia de materiales se esfuerza 
+    por encontrar sustitutos accesibles, en la práctica es complejo que un nuevo material desplace a los 
+    actuales de sus aplicaciones clave.
+    
+    Este trabajo analiza la **gramática de precios** (su dinámica de fluctuación) de cinco minerales críticos 
+    —cobre, níquel, cobalto, litio y platino— bajo dos enfoques complementarios:
+    
+    #### Perspectiva e influencia de la Demanda 🪙✨
+    ¿En qué medida el ciclo económico global explica la evolución de los precios?
+    
+    #### Perspectiva e influencia de la Oferta ⛰️ ⛏️
+    ¿La concentración geopolítica de la producción minera se traduce en una mayor volatilidad?
     """)
 
-    warning("El platino es la excepción estructural del análisis. A diferencia del resto, opera bajo lógicas de metal precioso y activo de reserva (almacenamiento en bóvedas, joyería de inversión), lo que disocia su volatilidad de los choques de oferta de la transición energética. Se mantiene en los gráficos como control, pero se excluye de la hipótesis principal.")
+    # Bloque de hipótesis elegante y sutil (línea gris al costado)
+    st.markdown("""
+    > **Hipótesis de partida:** A mayor concentración geopolítica de la producción minera, mayor es la 
+    > volatilidad histórica del precio. Los datos validan esta premisa mediante una correlación significativa 
+    > para los cuatro metales industriales de la transición.
+    """)
 
-    st.subheader("Último precio disponible")
-    df_last = df_imf[METALES].dropna().iloc[-1]
-    cols = st.columns(5)
-    for i, m in enumerate(METALES):
-        prev = df_imf[m].dropna().iloc[-2]
-        delta_pct = (df_last[m] - prev) / prev * 100
-        cols[i].metric(METALES_LABEL[m], f"${df_last[m]:,.0f}", f"{delta_pct:+.1f}%")
-    st.caption(f"Fuente: IMF Primary Commodity Prices · Último dato: {df_imf[METALES].dropna().index[-1].strftime('%b %Y')}")
+    st.markdown(""" 
+    El desarrollo del trabajo abordará el problema desde distintos ángulos, detallando la metodología en cada sección.
+    """)
+    
+    # Texto secundario en formato pequeño y fino al final
+    st.caption("PD: Este documento se complementa con una Memoria explicativa que detalla los procesos de análisis, las fuentes seleccionadas y los objetivos planteados.")
 
+    
 # ═══════════════════════════════════════════════════════════════
 # 1. COMPORTAMIENTO DE PRECIOS
 # ═══════════════════════════════════════════════════════════════
@@ -247,7 +235,7 @@ elif seccion == "Comportamiento de Precios":
 # 2. MACROECONOMÍA — LADO DE LA DEMANDA
 # ═══════════════════════════════════════════════════════════════
 elif seccion == "Macroeconomía y Ciclo Económico":
-    st.title("Lado de la Demanda: Macroeconomía y Ciclo Económico")
+    st.title("Macroeconomía y Ciclo Económico (Lado de la demanda)")
     st.markdown("""
     Los minerales industriales deberían responder al ciclo económico global: cuando la
     actividad manufacturera crece, la demanda de materiales sube y los precios también.
@@ -479,11 +467,10 @@ elif seccion == "Geopolítica y Concentración":
 # ═══════════════════════════════════════════════════════════════
 # 4. SÍNTESIS — MATRIZ DE RIESGO
 # ═══════════════════════════════════════════════════════════════
-elif seccion == "Matriz de Riesgo Estratégico":
+elif seccion == "Riesgo Estratégico":
     st.title("Síntesis: Matriz de Riesgo Estratégico")
     st.markdown("""
-    Esta sección integra las dos dimensiones anteriores — lado de la demanda y lado de la
-    oferta — en una única visualización. Se cruza el **HHI de 2025** de cada mineral
+    Esta sección integra las dos dimensiones anteriores en una única visualización. Se cruza el **HHI de 2025** de cada mineral
     (concentración geopolítica de la producción) con su **volatilidad histórica anualizada**
     (el precio que paga el mercado por esa concentración).
 
