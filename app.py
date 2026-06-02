@@ -32,11 +32,35 @@ st.markdown("""
         font-size: 0.92rem;
         color: #333;
     }
+    .warning-box {
+        background: #fff8f0;
+        border-left: 4px solid #e08a00;
+        padding: 0.8rem 1rem;
+        border-radius: 0 6px 6px 0;
+        margin: 0.8rem 0 1.2rem 0;
+        font-size: 0.92rem;
+        color: #333;
+    }
+    .conclusion-box {
+        background: #f0f8f0;
+        border-left: 4px solid #2ca02c;
+        padding: 0.8rem 1rem;
+        border-radius: 0 6px 6px 0;
+        margin: 0.8rem 0 1.2rem 0;
+        font-size: 0.92rem;
+        color: #333;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 def insight(texto):
     st.markdown(f'<div class="insight-box">💡 {texto}</div>', unsafe_allow_html=True)
+
+def warning(texto):
+    st.markdown(f'<div class="warning-box">⚠️ {texto}</div>', unsafe_allow_html=True)
+
+def conclusion(texto):
+    st.markdown(f'<div class="conclusion-box">✅ {texto}</div>', unsafe_allow_html=True)
 
 @st.cache_data
 def load_data():
@@ -57,37 +81,62 @@ METALES_LABEL = {'copper': 'Cobre', 'nickel': 'Níquel', 'platinum': 'Platino',
                  'cobalt': 'Cobalto', 'lithium': 'Litio'}
 PAISES        = ['Democratic Republic of Congo', 'South Africa', 'Chile', 'Peru', 'Indonesia']
 
+# ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.title("⛏️ Minerales Críticos")
     st.caption("Análisis de precios, geopolítica y concentración minera global")
     st.divider()
+
+    st.markdown("**Introducción**")
+    st.markdown("**→ Comportamiento de precios**")
+    st.divider()
+
+    st.markdown("**Lado de la demanda**")
+    st.markdown("**→ Macroeconomía y ciclo económico**")
+    st.divider()
+
+    st.markdown("**Lado de la oferta**")
+    st.markdown("**→ Geopolítica y concentración**")
+    st.divider()
+
+    st.markdown("**Síntesis**")
+    st.markdown("**→ Matriz de riesgo estratégico**")
+    st.divider()
+
     seccion = st.radio(
-        "Sección",
-        ["Introducción", "Precios", "Volatilidad", "Geopolítica", "Macroeconomía", "Riesgo Estratégico"],
+        "Navegación",
+        [
+            "Introducción",
+            "Comportamiento de Precios",
+            "Macroeconomía y Ciclo Económico",
+            "Geopolítica y Concentración",
+            "Matriz de Riesgo Estratégico",
+        ],
         label_visibility="collapsed"
     )
     st.divider()
     st.caption("UNED · Máster Data Science · Visualización de Datos")
 
 # ═══════════════════════════════════════════════════════════════
-# INTRODUCCIÓN
+# 0. INTRODUCCIÓN
 # ═══════════════════════════════════════════════════════════════
 if seccion == "Introducción":
     st.title("Minerales Críticos y Transición Energética")
     st.markdown("""
     La transición energética global depende de un puñado de minerales cuya producción está
-    altamente concentrada en pocos países. Esta aplicación analiza la **gramática de precios**
-    de cinco minerales críticos — cobre, níquel, cobalto, litio y platino — cruzando tres
-    dimensiones de análisis:
+    altamente concentrada en pocos países. Este trabajo analiza la **gramática de precios**
+    de cinco minerales críticos — cobre, níquel, cobalto, litio y platino — desde dos ángulos
+    complementarios:
 
-    - 📈 **Precios y volatilidad** — evolución histórica desde 2000, shocks compartidos y comportamiento diferencial entre minerales
-    - 🌍 **Geopolítica** — correlación entre inestabilidad política y precios, y concentración de la producción (HHI)
-    - 📊 **Macroeconomía** — relación con el ciclo económico global (CFNAI) y el índice del dólar (DXY)
+    - 📊 **Lado de la demanda** — ¿En qué medida el ciclo económico global explica la evolución de los precios?
+    - 🌍 **Lado de la oferta** — ¿La concentración geopolítica de la producción se traduce en mayor volatilidad?
 
-    La hipótesis de partida es que **a mayor concentración geopolítica de la producción, mayor
-    volatilidad histórica del precio**. Los datos la validan con una correlación de r = 0.81
-    para los cuatro metales industriales de la transición energética.
+    La hipótesis de partida es que **a mayor concentración geopolítica de la producción minera,
+    mayor volatilidad histórica del precio**. Los datos la validan con una correlación de
+    **r = 0,81** para los cuatro metales industriales de la transición energética.
     """)
+
+    warning("El platino es la excepción estructural del análisis. A diferencia del resto, opera bajo lógicas de metal precioso y activo de reserva (almacenamiento en bóvedas, joyería de inversión), lo que disocia su volatilidad de los choques de oferta de la transición energética. Se mantiene en los gráficos como control, pero se excluye de la hipótesis principal.")
 
     st.subheader("Último precio disponible")
     df_last = df_imf[METALES].dropna().iloc[-1]
@@ -96,20 +145,24 @@ if seccion == "Introducción":
         prev = df_imf[m].dropna().iloc[-2]
         delta_pct = (df_last[m] - prev) / prev * 100
         cols[i].metric(METALES_LABEL[m], f"${df_last[m]:,.0f}", f"{delta_pct:+.1f}%")
-    st.caption(f"Fuente: IMF Primary Commodity Prices · Último dato disponible: {df_imf[METALES].dropna().index[-1].strftime('%b %Y')}")
+    st.caption(f"Fuente: IMF Primary Commodity Prices · Último dato: {df_imf[METALES].dropna().index[-1].strftime('%b %Y')}")
 
 # ═══════════════════════════════════════════════════════════════
-# PRECIOS
+# 1. COMPORTAMIENTO DE PRECIOS
 # ═══════════════════════════════════════════════════════════════
-elif seccion == "Precios":
-    st.title("Evolución de Precios")
+elif seccion == "Comportamiento de Precios":
+    st.title("Comportamiento Histórico de Precios")
     st.markdown("""
-    Para comparar minerales con unidades heterogéneas ($/t, $/lb, $/troy oz), se normalizan
-    todas las series a un **índice base 100 = enero 2000**. Esto permite ver la apreciación
+    Para comparar minerales con unidades heterogéneas ($/t, $/lb, $/troy oz), todas las series
+    se normalizan a un **índice base 100 = enero 2000**. Esto permite ver la apreciación
     relativa de cada mineral independientemente de su escala de precio absoluto.
+
+    Las series del FMI y del Banco Mundial (Pink Sheet) se validaron cruzándolas para los
+    metales comunes: el solapamiento es prácticamente perfecto. Se usa la del FMI como
+    fuente única por ser más completa.
     """)
 
-    insight("A simple vista emergen tendencias compartidas: hundimiento generalizado en 2008–2009 (crisis financiera global), recuperación posterior y un crecimiento post-covid. El platino, sin embargo, muestra un comportamiento discordante desde 2015, anticipando su clasificación como activo de refugio más que como metal industrial.")
+    insight("A simple vista emergen tendencias compartidas: hundimiento generalizado en 2008–2009 (crisis financiera global), recuperación posterior y crecimiento post-covid. El platino muestra un comportamiento discordante desde 2015 — primera señal de su anomalía estructural como activo de refugio.")
 
     df_2000 = df_imf[df_imf.index >= '2000-01-01'][METALES].copy()
     df_idx  = (df_2000 / df_2000.ffill().bfill().iloc[0]) * 100
@@ -154,31 +207,16 @@ elif seccion == "Precios":
     st.altair_chart((lineas + reglas + etiq).properties(height=420).interactive(), use_container_width=True)
     st.caption("Haz clic en la leyenda para aislar un mineral · Scroll para hacer zoom")
 
-    st.subheader("Nota metodológica")
-    st.markdown("""
-    Las series del FMI y del Banco Mundial (Pink Sheet) se validaron cruzándolas para los
-    metales comunes (cobre, níquel, platino): el solapamiento es prácticamente perfecto, por
-    lo que se usa la serie del FMI como fuente única por ser más completa. El cobalto requirió
-    una conversión de unidades de $/libra a $/tonelada métrica (factor 2.204,62).
-    """)
-
-# ═══════════════════════════════════════════════════════════════
-# VOLATILIDAD
-# ═══════════════════════════════════════════════════════════════
-elif seccion == "Volatilidad":
-    st.title("Volatilidad Histórica")
+    st.subheader("Volatilidad histórica")
     st.markdown("""
     La volatilidad se calcula como la desviación estándar del **retorno mensual** sobre una
     ventana deslizante de 12 meses, anualizada con el factor estándar √12. Trabajar con
     retornos en lugar de precios absolutos elimina el sesgo que introduce el nivel de precio:
     un mineral caro no es necesariamente más volátil.
-
-    σ_anual = σ_mensual × √12
     """)
 
-    insight("El cobalto y el litio muestran picos de volatilidad extremos y concentrados en el tiempo — shocks de oferta específicos de la transición energética. El cobre y el níquel, como metales industriales maduros, tienen una volatilidad más estructural y menos puntual. El platino mantiene una volatilidad amortiguada consistente con su rol de activo de reserva.")
+    insight("El cobalto y el litio muestran picos de volatilidad extremos y concentrados — shocks de oferta específicos de la transición energética. El cobre y el níquel, como metales industriales maduros, tienen una volatilidad más estructural. El platino mantiene una volatilidad amortiguada consistente con su rol de activo de reserva.")
 
-    df_2000 = df_imf[df_imf.index >= '2000-01-01'][METALES].copy()
     df_vol  = df_2000.pct_change().rolling(12).std().dropna() * 100
     df_vol_long = (
         df_vol.reset_index()
@@ -200,166 +238,31 @@ elif seccion == "Volatilidad":
                 alt.Tooltip('mineral:N', title='Mineral'),
                 alt.Tooltip('vol:Q', title='Volatilidad (%)', format='.2f'),
             ]
-        ).add_params(sel2).properties(height=400).interactive()
+        ).add_params(sel2).properties(height=380).interactive()
     )
     st.altair_chart(chart_vol, use_container_width=True)
-    st.caption("Desviación estándar del retorno mensual, ventana 12 meses · Haz clic en la leyenda para aislar un mineral")
+    st.caption("Desviación estándar del retorno mensual, ventana 12 meses · Haz clic en la leyenda para aislar")
 
 # ═══════════════════════════════════════════════════════════════
-# GEOPOLÍTICA
+# 2. MACROECONOMÍA — LADO DE LA DEMANDA
 # ═══════════════════════════════════════════════════════════════
-elif seccion == "Geopolítica":
-    st.title("El Factor Geopolítico")
+elif seccion == "Macroeconomía y Ciclo Económico":
+    st.title("Lado de la Demanda: Macroeconomía y Ciclo Económico")
     st.markdown("""
-    La producción de minerales críticos está geográficamente concentrada en pocos países,
-    muchos de ellos con alta inestabilidad política. Esta sección cuantifica esa concentración
-    y su correlación con los precios usando datos de violencia política de ACLED.
+    Los minerales industriales deberían responder al ciclo económico global: cuando la
+    actividad manufacturera crece, la demanda de materiales sube y los precios también.
+    Para cuantificarlo se usa el **CFNAI** (Chicago Fed National Activity Index), un índice
+    compuesto por 85 indicadores de la economía estadounidense donde el valor 0 representa
+    crecimiento en la tendencia histórica. Su correlación con el PMI manufacturero es r = 0,68,
+    aceptable dado el nivel de ruido de ambas series.
+
+    **Nota metodológica clave:** las series de retorno y volatilidad se suavizan con medias
+    móviles hacia atrás (*backward-looking*) de 6 meses para el precio y 3 meses para el CFNAI.
+    Esto es imprescindible para evitar *look-ahead bias*: en ningún momento el modelo usa
+    información del futuro para calcular tendencias del pasado.
     """)
 
-    tab1, tab2, tab3 = st.tabs(["Concentración HHI", "Conflicto vs Precio", "RDC vs Cobalto"])
-
-    with tab1:
-        st.markdown("""
-        El **índice Herfindahl-Hirschman (HHI)** mide la concentración de la producción:
-        HHI = Σ(cuota_i)². Un HHI > 2.500 indica estructura de monopolio o duopolio geopolítico;
-        entre 1.000 y 2.500, concentración moderada.
-        """)
-        insight("El cobalto (dominado por la RDC) y el litio (dominado por el triángulo Chile-Argentina-Australia) tienen HHI superiores a 2.500, situándolos en zona de riesgo estructural. El cobre, históricamente concentrado en Chile y Perú, muestra una tendencia a la baja gracias a la diversificación productiva.")
-
-        df_p = df_usgs[~df_usgs['country'].isin(['World total', 'Other countries'])].copy()
-        prod_total = df_p.groupby(['mineral', 'year'])['mine_production'].transform('sum')
-        df_p['share_pct'] = (df_p['mine_production'] / prod_total) * 100
-        df_p['hhi_comp']  = df_p['share_pct'] ** 2
-        df_hhi = (
-            df_p.groupby(['mineral', 'year'])['hhi_comp']
-            .sum().reset_index().rename(columns={'hhi_comp': 'HHI'})
-        )
-        df_hhi['mineral'] = df_hhi['mineral'].str.capitalize()
-
-        sel_hhi = alt.selection_point(fields=['mineral'], bind='legend')
-        umbral_alto = alt.Chart(pd.DataFrame({'y': [2500]})).mark_rule(color='red', strokeDash=[6,3], strokeWidth=2).encode(y='y:Q')
-        umbral_mod  = alt.Chart(pd.DataFrame({'y': [1000]})).mark_rule(color='orange', strokeDash=[4,2], strokeWidth=1.5).encode(y='y:Q')
-        lineas_hhi = (
-            alt.Chart(df_hhi).mark_line(point=True, strokeWidth=2.5)
-            .encode(
-                x=alt.X('year:O', title='Año'),
-                y=alt.Y('HHI:Q', title='HHI'),
-                color=alt.Color('mineral:N', title='Mineral'),
-                opacity=alt.condition(sel_hhi, alt.value(1), alt.value(0.1)),
-                tooltip=[
-                    alt.Tooltip('mineral:N', title='Mineral'),
-                    alt.Tooltip('year:O', title='Año'),
-                    alt.Tooltip('HHI:Q', title='HHI', format='.0f'),
-                ]
-            ).add_params(sel_hhi)
-        )
-        st.altair_chart((umbral_alto + umbral_mod + lineas_hhi).properties(height=380), use_container_width=True)
-        st.caption("Línea roja: umbral alta concentración (HHI > 2.500) · Línea naranja: concentración moderada (> 1.000)")
-
-    with tab2:
-        st.markdown("""
-        Se calcula la correlación de Pearson entre los eventos de violencia política (ACLED)
-        de cada país productor y el precio de cada mineral, probando delays de 0 a 12 meses
-        y quedándose con el máximo.
-        """)
-        insight("Cuando las correlaciones son fuertes, el delay óptimo se sitúa en la ventana de 8 a 12 meses: la propagación de disrupciones en la cadena de suministro no es inmediata. La mayor correlación directa es entre el cobre y los eventos en Indonesia (r = 0,69). Cobre y níquel — metales con demanda similar — responden de forma muy distinta ante los mismos eventos, lo que subraya la utilidad de los controles geográficos.")
-
-        df_acled_piv = df_acled.pivot(columns='country', values='violence_events')
-        df_2000      = df_imf[df_imf.index >= '2000-01-01'][METALES]
-        df_comb      = df_acled_piv.join(df_2000, how='inner')
-
-        resultados = []
-        for metal in METALES:
-            for pais in PAISES:
-                mejor_corr, mejor_delay = 0, 0
-                for lag in range(0, 13):
-                    c = df_comb[pais].shift(lag).corr(df_comb[metal])
-                    if abs(c) > abs(mejor_corr):
-                        mejor_corr, mejor_delay = c, lag
-                resultados.append({'mineral': METALES_LABEL[metal], 'pais': pais,
-                                   'corr': round(mejor_corr, 3), 'delay': mejor_delay})
-
-        df_heat = pd.DataFrame(resultados)
-        fondo = (
-            alt.Chart(df_heat).mark_rect()
-            .encode(
-                x=alt.X('mineral:N', title='Mineral', axis=alt.Axis(labelAngle=0)),
-                y=alt.Y('pais:N', title='País'),
-                color=alt.Color('corr:Q', scale=alt.Scale(scheme='redblue', domain=[-1,1]), title='r'),
-                tooltip=[
-                    alt.Tooltip('mineral:N', title='Mineral'),
-                    alt.Tooltip('pais:N', title='País'),
-                    alt.Tooltip('corr:Q', title='r', format='.3f'),
-                    alt.Tooltip('delay:Q', title='Delay óptimo (meses)'),
-                ]
-            )
-        )
-        texto = (
-            alt.Chart(df_heat).mark_text(fontSize=11)
-            .encode(
-                x='mineral:N', y='pais:N',
-                text=alt.Text('corr:Q', format='.2f'),
-                color=alt.condition(alt.datum.corr > 0.35, alt.value('white'), alt.value('black'))
-            )
-        )
-        st.altair_chart((fondo + texto).properties(height=300), use_container_width=True)
-        st.caption("Correlación máxima con delay óptimo 0–12 meses · Tooltip muestra el delay en meses")
-
-    with tab3:
-        st.markdown("""
-        El cobalto se extrae mayoritariamente en la República Democrática del Congo (RDC),
-        un país con conflicto armado crónico. Las dos series se normalizan a escala 0–1
-        para permitir la comparación visual directa.
-        """)
-        insight("La inspección visual sugiere un desajuste temporal entre los picos de violencia y los picos de precio: la señal geopolítica tarda meses en propagarse a los mercados de materias primas a través de disrupciones logísticas y contractuales.")
-
-        df_acled_piv = df_acled.pivot(columns='country', values='violence_events')
-        df_geo = df_acled_piv[['Democratic Republic of Congo']].join(df_imf[['cobalt']], how='inner').dropna()
-        df_geo.columns = ['violencia_rdc', 'cobalt']
-        df_geo = df_geo.reset_index()
-        for col in ['violencia_rdc', 'cobalt']:
-            df_geo[f'{col}_norm'] = (df_geo[col] - df_geo[col].min()) / (df_geo[col].max() - df_geo[col].min())
-
-        df_geo_long = df_geo.melt(id_vars='date', value_vars=['violencia_rdc_norm', 'cobalt_norm'],
-                                  var_name='serie', value_name='valor')
-        df_geo_long['serie'] = df_geo_long['serie'].map({'violencia_rdc_norm': 'Violencia RDC', 'cobalt_norm': 'Precio Cobalto'})
-
-        chart_geo = (
-            alt.Chart(df_geo_long).mark_line(strokeWidth=2)
-            .encode(
-                x=alt.X('date:T', title='Fecha'),
-                y=alt.Y('valor:Q', title='Valor normalizado (0–1)'),
-                color=alt.Color('serie:N',
-                    scale=alt.Scale(domain=['Violencia RDC', 'Precio Cobalto'], range=['#D62728', '#1F77B4']),
-                    title='Serie'),
-                strokeDash=alt.condition(alt.datum.serie == 'Precio Cobalto', alt.value([6,3]), alt.value([1,0])),
-                tooltip=[
-                    alt.Tooltip('date:T', title='Fecha', format='%b %Y'),
-                    alt.Tooltip('serie:N', title='Serie'),
-                    alt.Tooltip('valor:Q', title='Valor norm.', format='.3f'),
-                ]
-            ).properties(height=360).interactive()
-        )
-        st.altair_chart(chart_geo, use_container_width=True)
-        st.caption("Series normalizadas 0–1 · Línea punteada = precio cobalto")
-
-# ═══════════════════════════════════════════════════════════════
-# MACROECONOMÍA
-# ═══════════════════════════════════════════════════════════════
-elif seccion == "Macroeconomía":
-    st.title("Relación con el Ciclo Económico")
-    st.markdown("""
-    Se usa el **CFNAI** (Chicago Fed National Activity Index) como proxy de actividad económica
-    global: es un índice compuesto por 85 indicadores de la economía estadounidense donde
-    el valor 0 representa crecimiento en la tendencia histórica. Se valida primero su correlación
-    con el PMI manufacturero (r = 0,68), aceptable dado el nivel de ruido de ambas series.
-
-    El análisis principal es la **correlación móvil de Pearson** con una ventana de 36 meses,
-    que permite capturar cómo evoluciona la relación entre macroeconomía y precio a lo largo
-    del tiempo — en lugar de una correlación estática que promediaría épocas muy distintas.
-    """)
-
-    insight("El análisis por subperiodos revela tres regímenes históricos bien diferenciados: los años 90 muestran desconexión total (r = 0,13, p = 0,24); el superciclo impulsado por China 2002–2019 activa la relación (r = 0,49, p < 0,001); y el periodo post-covid la estabiliza en un nuevo equilibrio (r = 0,33, p = 0,004). El litio, ausente del ciclo industrial tradicional, se sincroniza por primera vez con el resto de metales a partir de 2020: el mercado ha dejado de moverse por el cemento y el acero, y ahora lo hace por la electroquímica.")
+    insight("La correlación estática global es débil — pero esto no significa ausencia de relación. Significa inestabilidad del régimen. El análisis por subperiodos lo confirma: los años 90 muestran desconexión total (r = 0,13, p = 0,24); el superciclo chino 2002–2019 activa la relación (r = 0,49, p < 0,001); el periodo post-covid la estabiliza (r = 0,33, p = 0,004). El año 2002 es el verdadero punto de inflexión: su inclusión o exclusión altera drásticamente la significancia estadística.")
 
     metales_macro = ['copper', 'lithium', 'nickel', 'cobalt', 'platinum']
     ventana = 36
@@ -412,31 +315,181 @@ elif seccion == "Macroeconomía":
         .encode(x='x:T', y='y:Q', text='text:N')
     )
     st.altair_chart((banda + cero + lineas_corr + etiq_ev).properties(height=420).interactive(), use_container_width=True)
-    st.caption("Ventana móvil 36 meses · Zona gris = Era de la Transición Energética (desde 2015) · Clic en leyenda para aislar")
+    st.caption("Correlación móvil 36 meses vs CFNAI · Zona gris = Era Transición Energética (desde 2015) · Clic en leyenda para aislar")
+
+    insight("El litio se sincroniza por primera vez con el ciclo industrial a partir de 2020. El pico de 2008–2013, visible en el cobre y el níquel, representa el ciclo del cemento y el acero impulsado por China — donde el litio, que no es un metal industrial estructural, no participó y sirve como grupo de control. El verdadero despertar de la transición energética ocurre post-covid: el mercado ya no se mueve por el acero, sino por la electroquímica.")
 
     st.subheader("Regresión de control OLS")
     st.markdown("""
-    Para confirmar la robustez del CFNAI, se realiza una regresión multivariable OLS con tres
-    predictores macroeconómicos sobre el retorno mensual del cobre. El único predictor
-    estadísticamente significativo en frecuencia mensual es el índice del dólar **DXY**
+    Para confirmar la robustez del CFNAI como predictor, se realiza una regresión multivariable
+    OLS con tres predictores macroeconómicos sobre el retorno mensual del cobre: CFNAI,
+    índice del dólar (DXY) y tipos de interés de la Fed.
+
+    El único predictor estadísticamente significativo en frecuencia mensual es el **DXY**
     (β = −1,32, p < 0,001), confirmando la relación inversa clásica entre dólar fuerte y precio
     del cobre. El CFNAI y los tipos de interés no son significativos en frecuencia mensual
-    (p = 0,21 y p = 0,13), lo que no contradice el análisis dinámico anterior: su influencia
-    es estructural y de largo plazo, no un shock mensual inmediato.
+    (p = 0,21 y p = 0,13).
+
+    Esto no contradice el análisis dinámico anterior: su influencia es estructural y de largo
+    plazo, capturada por la ventana móvil, no por un shock mensual inmediato. El R² del modelo
+    conjunto es 0,159 — explicar el 16% de la variación de los retornos de una materia prima
+    con solo 3 variables macroeconómicas es un resultado sólido en este contexto.
     """)
 
 # ═══════════════════════════════════════════════════════════════
-# RIESGO ESTRATÉGICO
+# 3. GEOPOLÍTICA — LADO DE LA OFERTA
 # ═══════════════════════════════════════════════════════════════
-elif seccion == "Riesgo Estratégico":
-    st.title("Matriz de Riesgo Estratégico")
+elif seccion == "Geopolítica y Concentración":
+    st.title("Lado de la Oferta: Geopolítica y Concentración")
     st.markdown("""
-    La hipótesis central del trabajo es que **la concentración geopolítica de la producción
-    se traduce en mayor volatilidad de precios**. Esta sección la valida cruzando el HHI de
-    2025 de cada mineral con su volatilidad histórica anualizada.
+    Aunque la demanda explique parte de la evolución de precios, la oferta tiene su propia
+    dinámica. La producción de minerales críticos está geográficamente concentrada en pocos
+    países, muchos con alta inestabilidad política. Esta sección cuantifica esa concentración
+    y su relación con la volatilidad de precios usando datos de violencia política de ACLED.
     """)
 
-    insight("El cobalto y el níquel ocupan el cuadrante de mayor riesgo combinado (alta concentración + alta volatilidad). La inclusión del platino en el análisis global penaliza la correlación (r = 0,46) porque opera como activo de reserva y su volatilidad se disocia de los choques de oferta de la transición energética. Aislándolo metodológicamente, la correlación entre HHI y volatilidad para los cuatro metales industriales sube a r = 0,81 — validando la hipótesis de partida.")
+    tab1, tab2, tab3 = st.tabs(["Concentración HHI", "Conflicto vs Precio", "RDC vs Cobalto"])
+
+    with tab1:
+        st.markdown("""
+        El **índice Herfindahl-Hirschman (HHI)** mide la concentración de la producción:
+        HHI = Σ(cuota_i)². Un HHI > 2.500 indica estructura de monopolio o duopolio
+        geopolítico; entre 1.000 y 2.500, concentración moderada.
+        """)
+        insight("El cobalto (dominado por la RDC) y el litio (triángulo Chile-Argentina-Australia) tienen HHI superiores a 2.500. El cobre muestra una tendencia a la baja gracias a la diversificación productiva. El níquel, en cambio, se concentra crecientemente en Indonesia, cruzando el umbral de riesgo en 2025.")
+
+        df_p = df_usgs[~df_usgs['country'].isin(['World total', 'Other countries'])].copy()
+        prod_total = df_p.groupby(['mineral', 'year'])['mine_production'].transform('sum')
+        df_p['share_pct'] = (df_p['mine_production'] / prod_total) * 100
+        df_p['hhi_comp']  = df_p['share_pct'] ** 2
+        df_hhi = (
+            df_p.groupby(['mineral', 'year'])['hhi_comp']
+            .sum().reset_index().rename(columns={'hhi_comp': 'HHI'})
+        )
+        df_hhi['mineral'] = df_hhi['mineral'].str.capitalize()
+
+        sel_hhi = alt.selection_point(fields=['mineral'], bind='legend')
+        umbral_alto = alt.Chart(pd.DataFrame({'y': [2500]})).mark_rule(color='red', strokeDash=[6,3], strokeWidth=2).encode(y='y:Q')
+        umbral_mod  = alt.Chart(pd.DataFrame({'y': [1000]})).mark_rule(color='orange', strokeDash=[4,2], strokeWidth=1.5).encode(y='y:Q')
+        lineas_hhi = (
+            alt.Chart(df_hhi).mark_line(point=True, strokeWidth=2.5)
+            .encode(
+                x=alt.X('year:O', title='Año'),
+                y=alt.Y('HHI:Q', title='HHI'),
+                color=alt.Color('mineral:N', title='Mineral'),
+                opacity=alt.condition(sel_hhi, alt.value(1), alt.value(0.1)),
+                tooltip=[
+                    alt.Tooltip('mineral:N', title='Mineral'),
+                    alt.Tooltip('year:O', title='Año'),
+                    alt.Tooltip('HHI:Q', title='HHI', format='.0f'),
+                ]
+            ).add_params(sel_hhi)
+        )
+        st.altair_chart((umbral_alto + umbral_mod + lineas_hhi).properties(height=380), use_container_width=True)
+        st.caption("Línea roja: alta concentración (HHI > 2.500) · Línea naranja: concentración moderada (> 1.000)")
+
+    with tab2:
+        st.markdown("""
+        Se calcula la correlación de Pearson entre los eventos de violencia política (ACLED)
+        de cada país productor y el precio de cada mineral, probando delays de 0 a 12 meses
+        y quedándose con el máximo valor absoluto encontrado.
+        """)
+
+        insight("Hallazgo clave: cuando las correlaciones son fuertes, el delay óptimo se sitúa en la ventana de 8 a 12 meses. Las disrupciones en zonas de conflicto tardan casi un año en propagarse a los precios de mercado a través de la cadena logística y contractual. Cobre y níquel — metales con demanda industrial similar — responden de forma muy distinta ante los mismos eventos geopolíticos, lo que subraya la utilidad de los controles geográficos.")
+
+        df_acled_piv = df_acled.pivot(columns='country', values='violence_events')
+        df_2000      = df_imf[df_imf.index >= '2000-01-01'][METALES]
+        df_comb      = df_acled_piv.join(df_2000, how='inner')
+
+        resultados = []
+        for metal in METALES:
+            for pais in PAISES:
+                mejor_corr, mejor_delay = 0, 0
+                for lag in range(0, 13):
+                    c = df_comb[pais].shift(lag).corr(df_comb[metal])
+                    if abs(c) > abs(mejor_corr):
+                        mejor_corr, mejor_delay = c, lag
+                resultados.append({'mineral': METALES_LABEL[metal], 'pais': pais,
+                                   'corr': round(mejor_corr, 3), 'delay': mejor_delay})
+
+        df_heat = pd.DataFrame(resultados)
+        fondo = (
+            alt.Chart(df_heat).mark_rect()
+            .encode(
+                x=alt.X('mineral:N', title='Mineral', axis=alt.Axis(labelAngle=0)),
+                y=alt.Y('pais:N', title='País'),
+                color=alt.Color('corr:Q', scale=alt.Scale(scheme='redblue', domain=[-1,1]), title='r'),
+                tooltip=[
+                    alt.Tooltip('mineral:N', title='Mineral'),
+                    alt.Tooltip('pais:N', title='País'),
+                    alt.Tooltip('corr:Q', title='r', format='.3f'),
+                    alt.Tooltip('delay:Q', title='Delay óptimo (meses)'),
+                ]
+            )
+        )
+        texto = (
+            alt.Chart(df_heat).mark_text(fontSize=11)
+            .encode(
+                x='mineral:N', y='pais:N',
+                text=alt.Text('corr:Q', format='.2f'),
+                color=alt.condition(alt.datum.corr > 0.35, alt.value('white'), alt.value('black'))
+            )
+        )
+        st.altair_chart((fondo + texto).properties(height=300), use_container_width=True)
+        st.caption("Correlación máxima con delay óptimo 0–12 meses · Tooltip muestra el delay en meses")
+
+    with tab3:
+        st.markdown("""
+        El cobalto se extrae mayoritariamente en la República Democrática del Congo (RDC),
+        un país con conflicto armado crónico. Las dos series se normalizan a escala 0–1
+        para comparación visual directa sobre el mismo eje.
+        """)
+        insight("La inspección visual muestra un desajuste temporal claro entre los picos de violencia y los picos de precio: la señal geopolítica tarda meses en propagarse a los mercados. Este es el mismo fenómeno del delay de 8–12 meses que confirma el análisis cuantitativo.")
+
+        df_acled_piv = df_acled.pivot(columns='country', values='violence_events')
+        df_geo = df_acled_piv[['Democratic Republic of Congo']].join(df_imf[['cobalt']], how='inner').dropna()
+        df_geo.columns = ['violencia_rdc', 'cobalt']
+        df_geo = df_geo.reset_index()
+        for col in ['violencia_rdc', 'cobalt']:
+            df_geo[f'{col}_norm'] = (df_geo[col] - df_geo[col].min()) / (df_geo[col].max() - df_geo[col].min())
+
+        df_geo_long = df_geo.melt(id_vars='date', value_vars=['violencia_rdc_norm', 'cobalt_norm'],
+                                  var_name='serie', value_name='valor')
+        df_geo_long['serie'] = df_geo_long['serie'].map({'violencia_rdc_norm': 'Violencia RDC', 'cobalt_norm': 'Precio Cobalto'})
+
+        chart_geo = (
+            alt.Chart(df_geo_long).mark_line(strokeWidth=2)
+            .encode(
+                x=alt.X('date:T', title='Fecha'),
+                y=alt.Y('valor:Q', title='Valor normalizado (0–1)'),
+                color=alt.Color('serie:N',
+                    scale=alt.Scale(domain=['Violencia RDC', 'Precio Cobalto'], range=['#D62728', '#1F77B4']),
+                    title='Serie'),
+                strokeDash=alt.condition(alt.datum.serie == 'Precio Cobalto', alt.value([6,3]), alt.value([1,0])),
+                tooltip=[
+                    alt.Tooltip('date:T', title='Fecha', format='%b %Y'),
+                    alt.Tooltip('serie:N', title='Serie'),
+                    alt.Tooltip('valor:Q', title='Valor norm.', format='.3f'),
+                ]
+            ).properties(height=360).interactive()
+        )
+        st.altair_chart(chart_geo, use_container_width=True)
+        st.caption("Series normalizadas 0–1 · Línea punteada = precio cobalto")
+
+# ═══════════════════════════════════════════════════════════════
+# 4. SÍNTESIS — MATRIZ DE RIESGO
+# ═══════════════════════════════════════════════════════════════
+elif seccion == "Matriz de Riesgo Estratégico":
+    st.title("Síntesis: Matriz de Riesgo Estratégico")
+    st.markdown("""
+    Esta sección integra las dos dimensiones anteriores — lado de la demanda y lado de la
+    oferta — en una única visualización. Se cruza el **HHI de 2025** de cada mineral
+    (concentración geopolítica de la producción) con su **volatilidad histórica anualizada**
+    (el precio que paga el mercado por esa concentración).
+
+    El cuadrante superior derecho representa el mayor riesgo estratégico para las cadenas
+    de suministro de la transición energética.
+    """)
 
     df_p = df_usgs[~df_usgs['country'].isin(['World total', 'Other countries'])].copy()
     prod_total = df_p.groupby(['mineral', 'year'])['mine_production'].transform('sum')
@@ -461,7 +514,6 @@ elif seccion == "Riesgo Estratégico":
     df_riesgo = df_hhi_2025.join(df_vol_an).dropna().reset_index()
     df_riesgo.columns = ['mineral', 'HHI', 'vol']
     df_riesgo['mineral'] = df_riesgo['mineral'].str.capitalize()
-
     media_vol = df_riesgo['vol'].mean()
 
     puntos = (
@@ -484,8 +536,10 @@ elif seccion == "Riesgo Estratégico":
     linea_mono = alt.Chart(pd.DataFrame({'x': [2500]})).mark_rule(color='red', strokeDash=[6,3], strokeWidth=2).encode(x='x:Q')
     linea_vol  = alt.Chart(pd.DataFrame({'y': [media_vol]})).mark_rule(color='gray', strokeDash=[4,2], strokeWidth=1.5).encode(y='y:Q')
 
-    st.altair_chart((linea_mono + linea_vol + puntos + etiq_puntos).properties(height=420), use_container_width=True)
+    st.altair_chart((linea_mono + linea_vol + puntos + etiq_puntos).properties(height=440), use_container_width=True)
     st.caption("Línea roja: umbral monopolio geopolítico (HHI > 2.500) · Línea gris: volatilidad media del grupo")
+
+    conclusion("La hipótesis queda validada. La correlación entre concentración geopolítica (HHI) y volatilidad histórica anualizada es r = 0,81 para los cuatro metales industriales de la transición energética. La inclusión del platino penaliza la correlación global (r = 0,46) porque opera bajo lógicas de metal precioso, confirmando la anomalía estructural identificada desde la sección de precios.")
 
     st.subheader("Tabla resumen")
     df_show = df_riesgo.copy()
